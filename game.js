@@ -1,11 +1,6 @@
 var buttonColors = ["red", "blue", "green", "yellow"];
 var gamePattern = [];
 
-
-
-
-
-
 function nextSequence(){
 
     var randomNumber = Math.floor(Math.random() * 4);
@@ -19,21 +14,29 @@ function makeSound(randomChosenColor){
     switch (randomChosenColor){
         case "red":
             var redSound = new Audio("sounds/red.mp3");
+            console.log("red sound played");
             redSound.play();
+            break;
 
-            case "blue":
+        case "blue":
             var blueSound = new Audio("sounds/blue.mp3");
+            console.log("blue sound played");
             blueSound.play();
+            break;
 
-            case "green":
+        case "green":
             var greenSound = new Audio("sounds/green.mp3");
+            console.log("green sound played");
             greenSound.play();
+            break;
 
-            case "yellow":
+        case "yellow":
             var yellowSound = new Audio("sounds/yellow.mp3");
+            console.log("yellow sound played");
             yellowSound.play();
+            break;
 
-            default: console.log("no sound: " + randomChosenColor + " passed to function.")
+        default: console.log("no sound: " + randomChosenColor + " passed to function.")
     }
 }
 
@@ -41,7 +44,7 @@ function letsStart(){
 
    
     randomChosenColor = nextSequence();
-    console.log(randomChosenColor);
+    console.log("chosen color: " + randomChosenColor);
 
     //dim out chosen button
     $("#" + randomChosenColor).addClass("pressed");
