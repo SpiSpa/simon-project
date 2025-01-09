@@ -1,26 +1,12 @@
 var buttonColors = ["red", "blue", "green", "yellow"];
 var gamePattern = [];
-var userClickedPattern = [];
-level = 0;
 
 function nextSequence(){
 
     var randomNumber = Math.floor(Math.random() * 4);
+    console.log("Curent random number: " + randomNumber);
     var randomChosenColor = buttonColors[randomNumber];
-    gamePattern.push(randomChosenColor);
-    makeSound(randomChosenColor);
-    buttonFlash(randomChosenColor);
-    console.log("current random color: " + randomChosenColor);
-    console.log("random color array: " + gamePattern);
-
-    // ******************this part's not working ********************
-    for (i = 0; i++; i < gamePattern.length){
-        buttonFlash(gamePattern[i]);
-        setTimeout(function(){
-
-        }, 500);
-    }
-
+    return randomChosenColor;
 }
 
 // play the sound corresponding with each button color
@@ -28,21 +14,25 @@ function makeSound(randomChosenColor){
     switch (randomChosenColor){
         case "red":
             var redSound = new Audio("sounds/red.mp3");
+            console.log("red sound played");
             redSound.play();
             break;
 
         case "blue":
             var blueSound = new Audio("sounds/blue.mp3");
+            console.log("blue sound played");
             blueSound.play();
             break;
 
         case "green":
             var greenSound = new Audio("sounds/green.mp3");
+            console.log("green sound played");
             greenSound.play();
             break;
 
         case "yellow":
             var yellowSound = new Audio("sounds/yellow.mp3");
+            console.log("yellow sound played");
             yellowSound.play();
             break;
 
@@ -50,38 +40,28 @@ function makeSound(randomChosenColor){
     }
 }
 
-function buttonFlash(color){
+function letsStart(){
+
    
+    randomChosenColor = nextSequence();
+    console.log("chosen color: " + randomChosenColor);
+
     //dim out chosen button
-    $("#" + color).addClass("pressed");
+    $("#" + randomChosenColor).addClass("pressed");
 
     // make the corresponding sound
-    makeSound(color);
+    makeSound(randomChosenColor);
 
     // undim the chosen button to make it look like it flashed.
     setTimeout(function(){
-        $("#" + color).removeClass("pressed")
-        }, 200);
+        $("#" + randomChosenColor).removeClass("pressed")
+        }, 500);
 }
 
 $(".btn").click(function() {
-    var userChosenColor = this.id
-    makeSound(userChosenColor);
-    buttonFlash(userChosenColor);
-    
-    console.log("Chosen button: " + userChosenColor);   
-    userClickedPattern.push(userChosenColor);
-    console.log("Chosen color array:" + userClickedPattern);
-    });
-
-$(document).keydown(function(){
-    console.log("key pressed")
-    nextSequence();
-    $("h1").text("level " + level);
-    level++;
-    });
-
-
+    $("h1").css("color", "green");
+    letsStart();
+});
 /*
 for (i = 0; i < 5; i++){
 
@@ -91,6 +71,12 @@ for (i = 0; i < 5; i++){
 
     gamePattern.push(randomChosenColor);
     console.log(gamePattern);
+
+    $("#" + randomChosenColor).addClass("pressed");
+
+    setTimeout(function(){
+        $("#" + randomChosenColor).removeClass("pressed")
+    }, 500);
 
 
 
