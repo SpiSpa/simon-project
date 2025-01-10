@@ -1,7 +1,8 @@
 var buttonColors = ["red", "blue", "green", "yellow"];
 var gamePattern = [];
 var userClickedPattern = [];
-level = 0;
+var level = 0;
+var gameEnd = false;
 
 function nextSequence(){
 
@@ -9,23 +10,18 @@ function nextSequence(){
     var randomNumber = Math.floor(Math.random() * 4);
     var randomChosenColor = buttonColors[randomNumber];
     gamePattern.push(randomChosenColor);
-    makeSound(randomChosenColor);
-    buttonFlash(randomChosenColor);
     console.log("current random color: " + randomChosenColor);
     console.log("random color array: " + gamePattern);
 
-    // ******************this part's not working ********************
-    //**********instead of only playing the most recent color, I want it to play all of them.
-
-   /* for (let i = 0; i < gamePattern.length; i++){
+   for (let i = 0; i < gamePattern.length; i++){
         console.log("iteration " + i);
-        buttonFlash(gamePattern[i]);
-        setTimeout(function(){
-            buttonFlash(gamePattern[i+1])
-        }, 500);
-        
-    }*/
 
+        setTimeout(function(){
+            buttonFlash(gamePattern[i]);
+            makeSound(gamePattern[i]);
+            }, (1000 + 1000 * i));
+            console.log(gamePattern[i] + " flashed");
+    }
 }
 
 // play the sound corresponding with each button color
@@ -79,27 +75,45 @@ function checkCorrect(gamePattern, userClickedPattern){
     else {
         console.log("computer and user DO NOT match");
         $("h1").text("GAME OVER");
-        $("h1").css("color", "red");
+        $("h1").addClass(".game-over");
     }
 }
 
+function restartGame(){
+    gamePattern = [];
+    userClickedPattern = [];
+    level = 0;
+    gameEnd = false;
+}
 
+// event for the user to choose their buttons
 $(".btn").click(function() {
-    var userChosenColor = this.id
+    var userChosenColor = this.id;
     makeSound(userChosenColor);
     buttonFlash(userChosenColor);
     
     userClickedPattern.push(userChosenColor);
 
-    if (userClickedPattern.length == gamePattern.length) {
+    if (userClickedPattern.length === gamePattern.length) {
         checkCorrect(gamePattern, userClickedPattern);
+        if (gameEnd ===  false){
+            setTimeout(nextSequence(), 1000);
+        }
+        else {
+            console.log("game reset");;
+        }
     }
+});
 
-    });
-
+    // event to start the game and have computer choose a random button
 $(document).keydown(function(){
-    console.log("key pressed")
-    nextSequence();
+    if (level === 0 || gameEnd === true) {
+        console.log("key pressed");
+        restartGame();
+        nextSequence();
+    }
     $("h1").text("level " + (level + 1));
     level++;
     });
+
+// game over's not working.
