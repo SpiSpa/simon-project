@@ -49,6 +49,11 @@ function makeSound(randomChosenColor){
             yellowSound.play();
             break;
 
+        case "wrong":
+            var wrongSound = new Audio("sounds/wrong.mp3");
+            wrongSound.play();
+            break;
+
         default: console.log("no sound: " + randomChosenColor + " passed to function.")
     }
 }
@@ -76,10 +81,23 @@ function checkCorrect(gamePattern, userClickedPattern){
     }
     else {
         console.log("computer and user DO NOT match");
+
+            //flash red background
+    $("body").addClass("game-over");
+
+    // make the error sound
+    makeSound("wrong");
+
+    // unflash red background
+    setTimeout(function(){
+        $("body").removeClass("game-over")
+        }, 200);
+
+        // change text to GAME OVER
         $("h1").text("GAME OVER");
-        //******** addClass game over not working ********/
-        $("h1").addClass(".game-over");
+
         gameEnd = true;
+
     }
 }
 
