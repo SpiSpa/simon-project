@@ -5,6 +5,8 @@ var level = 0;
 var gameEnd = false;
 
 function nextSequence(){
+    $("h1").text("level " + (level + 1));
+    level++;
 
     userClickedPattern = []; //resets the user input to an empty array.
     var randomNumber = Math.floor(Math.random() * 4);
@@ -75,7 +77,9 @@ function checkCorrect(gamePattern, userClickedPattern){
     else {
         console.log("computer and user DO NOT match");
         $("h1").text("GAME OVER");
+        //******** addClass game over not working ********/
         $("h1").addClass(".game-over");
+        gameEnd = true;
     }
 }
 
@@ -112,8 +116,6 @@ $(document).keydown(function(){
         restartGame();
         nextSequence();
     }
-    $("h1").text("level " + (level + 1));
-    level++;
     });
 
-// game over's not working.
+
